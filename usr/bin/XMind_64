@@ -1,0 +1,10 @@
+#!/bin/sh
+
+XMIND=/opt/xmind/XMind_amd64/XMind
+
+if [ ! -d ~/.xmind/ ] ; then
+    $XMIND -clean -initialize || exit $?
+fi
+
+export UBUNTU_MENUPROXY=0
+exec $XMIND "$@"
