@@ -70,7 +70,7 @@ else
   echo "OK"
 fi
 
-echo "create /usr/bin/XMind"
+echo "Create /usr/bin/XMind"
 if [ $VERSION == "XMind_amd64" ]
 then
   cp usr/bin/XMind_64 /usr/bin/XMind
@@ -86,7 +86,7 @@ else
 fi
 
 echo "Copy share folder to /usr/share for create laucher, mime, and icon."
-cp -a usr/share/. /usr/share/.
+cp -dR --no-preserve all usr/share/. /usr/share/.
 if [ $? != 0 ]
 then
   status_flag=1
@@ -124,7 +124,7 @@ echo "Update mime database and font cache"
 update-mime-database /usr/share/mime/
 
 # Update mime cache database
-update-desktop-database /use/share/applications
+update-desktop-database /usr/share/applications
 
 # Update font cache
 fc-cache --force
