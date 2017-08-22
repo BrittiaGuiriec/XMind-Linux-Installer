@@ -2,8 +2,9 @@
 ##
 ## XMind 8 Installer
 ##
-## Author: Mohammad Riza Nurtam
-## Email: muhammadriza@gmail.com
+## Author: DinoLai
+## Email: dinos80152@gmail.com
+## Fork from: https://github.com/mriza/XMind-Linux-Installer
 ##
 ## Licensed under GPL V3
 ## Please refer to https://www.gnu.org/licenses/gpl-3.0.en.html
@@ -13,7 +14,7 @@
 ## 2. don't forget to pass the user of the program in the command argument
 ##
 ## example
-## sudo bash xmind8-installer.sh mriza
+## sudo bash xmind8-installer.sh dinolai
 
 status_flag=0
 if [ -z "$1" ]
@@ -39,8 +40,18 @@ else
 	exit 1
 fi
 
+echo "[setup] Installing dependencies...."
+apt-get install default-jre libgtk2.0-0 libwebkitgtk-1.0-0 lame libc6 libglib2.0-0
+if [ $? != 0 ]
+then
+  status_flag=1
+  echo "Failed"
+else
+  echo "OK"
+fi
+
 echo "Extracting files..."
-unzip -q xmind-8-update2-linux.zip -d xmind
+unzip -q xmind-8-update3-linux.zip -d xmind
 if [ $? != 0 ]
 then
   status_flag=1
@@ -59,10 +70,13 @@ else
   echo "OK"
 fi
 
-echo "Installing additional fonts..."
-mkdir -p /usr/share/fonts/xmind
-cp -R $XMIND_DIR/fonts/* /usr/share/fonts/xmind/
-fc-cache -f
+echo "create /usr/bin/XMind"
+if [ $VERSION == "XMind_amd64" ]
+then
+  cp usr/bin/XMind_64 /usr/bin/XMind
+else
+  cp usr/bin/XMind_32 /usr/bin/XMind
+fi
 if [ $? != 0 ]
 then
   status_flag=1
@@ -71,16 +85,8 @@ else
   echo "OK"
 fi
 
-echo "Creating laucher..."
-echo "" > /usr/share/applications/xmind8.desktop
-echo "[Desktop Entry]" >> /usr/share/applications/xmind8.desktop
-echo "Comment=Create and share mind maps." >> /usr/share/applications/xmind8.desktop
-echo "Exec=$BIN_DIR/XMind %F" >> /usr/share/applications/xmind8.desktop
-echo "Name=XMind" >> /usr/share/applications/xmind8.desktop
-echo "Terminal=false" >> /usr/share/applications/xmind8.desktop
-echo "Type=Application" >> /usr/share/applications/xmind8.desktop
-echo "Categories=Office;" >> /usr/share/applications/xmind8.desktop
-echo "Icon=xmind" >> /usr/share/applications/xmind8.desktop
+echo "Copy share folder to /usr/share for create laucher, mime, and icon."
+cp -a usr/share/. /usr/share/.
 if [ $? != 0 ]
 then
   status_flag=1
@@ -105,6 +111,24 @@ echo "Post installatin configurations..."
 sed -i "s/\.\.\/workspace/@user\.home\/workspace/g" "$BIN_DIR/XMind.ini"
 sed -i "s/\.\/configuration/@user\.home\/\.configuration/g" "$BIN_DIR/XMind.ini"
 sed -i "s/^\.\./\/opt\/xmind/g" "$BIN_DIR/XMind.ini"
+if [ $? != 0 ]
+then
+  status_flag=1
+  echo "Failed"
+else
+  echo "OK"
+fi
+
+echo "Update mime database and font cache"
+# Update application mime database
+update-mime-database /usr/share/mime/
+
+# Update mime cache database
+update-desktop-database /use/share/applications
+
+# Update font cache
+fc-cache --force
+
 if [ $? != 0 ]
 then
   status_flag=1
