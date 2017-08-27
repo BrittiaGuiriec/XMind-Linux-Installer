@@ -10,20 +10,13 @@
 ## Please refer to https://www.gnu.org/licenses/gpl-3.0.en.html
 ##
 ## How to use this script
-## 1. run the script using privileged user or using sudo command
-## 2. don't forget to pass the user of the program in the command argument
+## 1. Download XMind zip file from official website
+## 2. run the script using privileged user or using sudo command
 ##
 ## example
-## sudo bash xmind8-installer.sh dinolai
+## sudo bash xmind8-installer.sh
 
 status_flag=0
-if [ -z "$1" ]
-then
-	echo "USAGE:
-	sudo xmind-installer.sh username"
-	exit 1
-fi
-
 ARCH=`uname -m`
 XMIND_DIR="/opt/xmind"
 if [ $ARCH == "x86_64" ]
@@ -85,7 +78,7 @@ else
   echo "OK"
 fi
 
-echo "Copy share folder to /usr/share for create laucher, mime, and icon."
+echo "Copy share folder to /usr/share for create launcher, mime, and icon."
 cp -dR --no-preserve all usr/share/. /usr/share/.
 if [ $? != 0 ]
 then
@@ -96,9 +89,9 @@ else
 fi
 
 echo "Creating workspaces..."
-mkdir /home/$1/{workspace,.configuration}
-cp -R $BIN_DIR/configuration/* /home/$1/.configuration
-chown -R $1: /home/$1/workspace /home/$1/.configuration
+mkdir $HOME/{workspace,.configuration}
+cp -R $BIN_DIR/configuration/* $HOME/.configuration
+chown -R $USER: $HOME/workspace $HOME/.configuration
 if [ $? != 0 ]
 then
   status_flag=1
