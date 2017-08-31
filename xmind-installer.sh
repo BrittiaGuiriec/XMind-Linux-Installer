@@ -63,7 +63,7 @@ else
   echo "OK"
 fi
 
-echo "Create /usr/bin/XMind"
+echo "Create command..."
 if [ $VERSION == "XMind_amd64" ]
 then
   cp usr/bin/XMind_64 /usr/bin/XMind
@@ -78,7 +78,7 @@ else
   echo "OK"
 fi
 
-echo "Copy share folder to /usr/share for create launcher, mime, and icon."
+echo "Copy share folder to /usr/share for create launcher, mime, and icon..."
 cp -dR --no-preserve all usr/share/. /usr/share/.
 if [ $? != 0 ]
 then
@@ -91,7 +91,7 @@ fi
 echo "Creating workspaces..."
 mkdir $HOME/{workspace,.configuration}
 cp -R $BIN_DIR/configuration/* $HOME/.configuration
-chown -R $USER: $HOME/workspace $HOME/.configuration
+chown -R $SUDO_USER:$SUDO_GID $HOME/workspace $HOME/.configuration
 if [ $? != 0 ]
 then
   status_flag=1
@@ -112,7 +112,7 @@ else
   echo "OK"
 fi
 
-echo "Update mime database and font cache"
+echo "Updating mime database and font cache, please waiting few seconds..."
 # Update application mime database
 update-mime-database /usr/share/mime/
 
