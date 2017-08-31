@@ -22,6 +22,14 @@ A simple BASH script to install XMind on Debian/Ubuntu 32/64 bit, include Launch
 1. Updating MIME database, Desktop database and font cache
 1. Finish Installation
 
+## What's Uninstall Script do
+
+1. Removing xmind files
+1. Removing workspace and configuration from user HOME directory
+1. Removing system data like launcher, mime link, icon, etc...
+1. Removing command
+1. Updating system database like mime, font
+
 ## Reference
 
 This script is base on [mriza/XMind-Linux-Installer](https://github.com/mriza/XMind-Linux-Installer) and [XMind for linux beta deb file](http://www.xmind.net/download/beta/)
