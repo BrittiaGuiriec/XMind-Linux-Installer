@@ -34,4 +34,5 @@ A simple BASH script to install XMind on Debian/Ubuntu 32/64 bit, include Launch
 
 This script is base on [mriza/XMind-Linux-Installer](https://github.com/mriza/XMind-Linux-Installer) and [XMind for linux beta deb file](http://www.xmind.net/download/beta/)
 
+* [How to install & run Xmind v. 8 in Ubuntu 16.04?](https://askubuntu.com/questions/869848/how-to-install-run-xmind-v-8-in-ubuntu-16-04)
 * [Advanced Bash-Scripting Guide](http://tldp.org/LDP/abs/html/index.html)
